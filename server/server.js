@@ -9,12 +9,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-const clientBuildPath = path.join(__dirname, "../client/build");
-console.log(clientBuildPath);
-app.use(express.static(clientBuildPath));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(clientBuildPath, "index.html"));
-});
+
 require("dotenv").config(); // load environment variables
 
 const connectDB = require("./config/db"); // import DB connection
@@ -34,6 +29,13 @@ app.use("/api/movies", movieRouter);
 app.use("/api/theatres", theatreRouter);
 app.use("/api/shows", showRouter);
 app.use("/api/bookings", bookingsRouter);
+
+const clientBuildPath = path.join(__dirname, "../client/build");
+console.log(clientBuildPath);
+app.use(express.static(clientBuildPath));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(clientBuildPath, "index.html"));
+});
 
 app.listen(8080, () => {
   console.log("Server is running at port 8080");
